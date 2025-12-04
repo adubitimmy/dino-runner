@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dino Runner</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page-wrapper">
+    <header class="header">
+      <h1>Dino Runner</h1>
+      <p class="tagline">Tap, jump, survive. How far can you go?</p>
+    </header>
+
+    <main>
+      <section class="game-panel">
+        <div class="hud">
+          <div class="hud-item">
+            <span class="label">Score</span>
+            <span id="score" class="value">0</span>
+          </div>
+          <div class="hud-item">
+            <span class="label">Best</span>
+            <span id="highScore" class="value">0</span>
+          </div>
+        </div>
+
+        <div class="game-container" id="gameContainer">
+          <div class="ground"></div>
+          <div class="dino" id="dino"></div>
+          <div class="obstacle" id="obstacle"></div>
+
+          <div class="overlay" id="startOverlay">
+            <h2>Tap to Start</h2>
+            <p>Press <strong>Space</strong> or tap anywhere to jump.</p>
+          </div>
+
+          <div class="overlay hidden" id="gameOverOverlay">
+            <h2>Game Over</h2>
+            <p>Your score: <span id="finalScore">0</span></p>
+            <button id="restartBtn">Play Again</button>
+          </div>
+        </div>
+
+        <div class="instructions">
+          <h3>How to Play</h3>
+          <ul>
+            <li>Press <strong>Space</strong> or tap/click anywhere to make the dino jump.</li>
+            <li>Avoid hitting the obstacles.</li>
+            <li>The longer you survive, the faster it gets.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Built with HTML, CSS &amp; JS • Deploy on GitHub Pages</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
