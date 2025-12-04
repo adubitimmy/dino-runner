@@ -7,6 +7,10 @@ const scoreEl = document.getElementById("score");
 const highScoreEl = document.getElementById("highScore");
 const finalScoreEl = document.getElementById("finalScore");
 
+const themeToggleBtn = document.getElementById("themeToggle");
+const themeIcon = document.getElementById("themeIcon");
+const themeLabel = document.getElementById("themeLabel");
+
 let isJumping = false;
 let isGameRunning = false;
 let score = 0;
@@ -17,6 +21,29 @@ let speedLevel = 1; // used to gradually speed up obstacle
 let currentDuration = 1.5; // seconds
 
 highScoreEl.textContent = highScore.toString();
+
+/* --- THEME HANDLING --- */
+
+function applyTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+
+  if (theme === "day") {
+    themeIcon.textContent = "☀️";
+    themeLabel.textContent = "Day";
+  } else {
+    themeIcon.textContent = "🌙";
+    themeLabel.textContent = "Night";
+  }
+}
+
+let currentTheme = localStorage.getItem("dinoTheme") || "night";
+applyTheme(currentTheme);
+
+themeToggleBtn.addEventListener("click", () => {
+  currentTheme = currentTheme === "night" ? "day" : "night";
+  applyTheme(currentTheme);
+  localStorage.setItem("dinoTheme", currentTheme);
+});
 
 /* --- GAME CONTROL --- */
 
@@ -34,6 +61,7 @@ function startGame() {
   startOverlay.classList.add("hidden");
   gameOverOverlay.classList.add("hidden");
 
+  // reset animation duration + play
   obstacle.style.animationDuration = `${currentDuration}s`;
   obstacle.style.animationPlayState = "running";
 
@@ -63,8 +91,7 @@ function endGame() {
 function resetGame() {
   // Force obstacle to restart animation by toggling it off/on
   obstacle.style.animation = "none";
-  // Trigger reflow
-  void obstacle.offsetWidth;
+  void obstacle.offsetWidth; // trigger reflow
   obstacle.style.animation = `obstacleMove ${currentDuration}s linear infinite`;
   obstacle.style.animationPlayState = "paused";
 
@@ -125,7 +152,7 @@ function stopCollisionCheck() {
   }
 }
 
-/* --- JUMP LOGIC --- */
+/* --- JUMP LOGIC (with flip) --- */
 
 function jump() {
   if (!isGameRunning) {
