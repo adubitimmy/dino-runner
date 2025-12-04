@@ -1,0 +1,353 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #050816;
+  --bg-soft: #0b1120;
+  --accent: #22c55e;
+  --accent-soft: rgba(34, 197, 94, 0.15);
+  --danger: #f97373;
+  --text-main: #e5e7eb;
+  --text-muted: #9ca3af;
+  --card: #020617;
+  --border: #1f2937;
+  --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.45);
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Inter", "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #1f2937 0, #020617 40%, #000 100%);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  padding: 1.5rem;
+}
+
+.page-wrapper {
+  width: 100%;
+  max-width: 960px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.header {
+  text-align: center;
+}
+
+.header h1 {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 800;
+  background: linear-gradient(90deg, #22c55e, #38bdf8, #a855f7);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.tagline {
+  margin-top: 0.35rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.game-panel {
+  background: radial-gradient(circle at top, #020617 0, #000 80%);
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hud {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  font-size: 0.9rem;
+}
+
+.hud-item {
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+
+.hud-item .label {
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.65rem;
+}
+
+.hud-item .value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+/* Game area */
+
+.game-container {
+  position: relative;
+  margin-top: 0.5rem;
+  border-radius: 1rem;
+  background: linear-gradient(
+    180deg,
+    #0b1120 0%,
+    #020617 40%,
+    #020617 65%,
+    #020617 70%,
+    #020617 100%
+  );
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.32);
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.85);
+  height: 260px;
+}
+
+@media (min-width: 768px) {
+  .game-container {
+    height: 280px;
+  }
+}
+
+.ground {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  width: 200%;
+  height: 3px;
+  background-image: linear-gradient(
+    to right,
+    rgba(148, 163, 184, 0.4) 4px,
+    transparent 4px
+  );
+  background-size: 10px 100%;
+  animation: groundMove 1.2s linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes groundMove {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Dino character */
+
+.dino {
+  position: absolute;
+  bottom: 40px;
+  left: 38px;
+  width: 42px;
+  height: 46px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  box-shadow: 0 10px 20px rgba(22, 163, 74, 0.6);
+  transform-origin: bottom center;
+}
+
+/* Dino face/body details using pseudo-elements */
+
+.dino::before,
+.dino::after {
+  content: "";
+  position: absolute;
+}
+
+/* Eye */
+
+.dino::before {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #0f172a;
+  top: 10px;
+  right: 7px;
+  box-shadow: 0 0 0 2px rgba(190, 242, 100, 0.3);
+}
+
+/* Mouth */
+
+.dino::after {
+  width: 18px;
+  height: 3px;
+  border-radius: 999px;
+  background: #0f172a;
+  bottom: 10px;
+  right: 6px;
+}
+
+/* Obstacle */
+
+.obstacle {
+  position: absolute;
+  bottom: 40px;
+  right: -52px;
+  width: 26px;
+  height: 46px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #64748b, #0f172a);
+  box-shadow: 0 10px 14px rgba(15, 23, 42, 0.8);
+  transform-origin: bottom center;
+  animation: obstacleMove 1.5s linear infinite;
+  animation-play-state: paused;
+}
+
+.obstacle::before,
+.obstacle::after {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border-radius: inherit;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.obstacle::after {
+  inset: 32%;
+  border-color: rgba(148, 163, 184, 0.65);
+}
+
+@keyframes obstacleMove {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-600px);
+  }
+}
+
+/* Jump animation */
+
+.jump {
+  animation: dinoJump 550ms ease-out;
+}
+
+@keyframes dinoJump {
+  0% {
+    transform: translateY(0);
+  }
+  35% {
+    transform: translateY(-85px);
+  }
+  65% {
+    transform: translateY(-85px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Overlays */
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at top,
+    rgba(15, 23, 42, 0.88),
+    rgba(15, 23, 42, 0.98)
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  text-align: center;
+  padding: 1.5rem;
+  z-index: 10;
+}
+
+.overlay h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.overlay p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.hidden {
+  display: none;
+}
+
+/* Button */
+
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0.55rem 1.3rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  background: radial-gradient(circle at top left, #22c55e, #16a34a);
+  color: #020617;
+  box-shadow: 0 10px 25px rgba(34, 197, 94, 0.4);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(34, 197, 94, 0.55);
+  filter: brightness(1.05);
+}
+
+button:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 6px 16px rgba(34, 197, 94, 0.5);
+}
+
+/* Instructions */
+
+.instructions {
+  background: radial-gradient(circle at top left, #020617, #020617);
+  border-radius: 0.9rem;
+  border: 1px dashed rgba(148, 163, 184, 0.35);
+  padding: 0.9rem 1rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.instructions h3 {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  margin-bottom: 0.35rem;
+}
+
+.instructions ul {
+  list-style: disc;
+  padding-left: 1.2rem;
+}
+
+.instructions li + li {
+  margin-top: 0.2rem;
+}
+
+.footer {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  opacity: 0.8;
+}
